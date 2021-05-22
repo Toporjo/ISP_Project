@@ -54,12 +54,6 @@ public class DailyPaymentCheckingTask implements Runnable {
                     .stream()
                     .map(User::getAgreementNumber)
                     .collect(Collectors.toList()));
-//            blocked.addAll(paymentUserMap
-//                    .keySet()
-//                    .stream()
-//                    .filter(x->x.isBlocked())
-//                    .map(User::getAgreementNumber)
-//                    .collect(Collectors.toSet()));
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

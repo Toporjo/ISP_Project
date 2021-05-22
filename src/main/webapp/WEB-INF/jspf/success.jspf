@@ -3,4 +3,6 @@
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Success!</strong> ${successMessage}
     </div>
+    <c:remove var="successMessage" scope="request"/>
+    <c:remove var="successMessage" scope="session"/>
 </c:if>

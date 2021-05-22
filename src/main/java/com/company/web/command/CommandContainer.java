@@ -42,7 +42,6 @@ public class CommandContainer {
 		commands.put("registrationForm", new RegistrationFormCommand());
 		commands.put("registerUser", new RegisterUserCommand());
 		commands.put("activateTariff", new ActivateTariffCommand());
-		commands.put("tariffListCommand", new TariffListCommand());
 		commands.put("fundForm", new FundFromCommand());
 		commands.put("addFunds", new AddFundsCommand());
 		commands.put("triggerPayment", new TESTTriggerDailyPaymentCommand());

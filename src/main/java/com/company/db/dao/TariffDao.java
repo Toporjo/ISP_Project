@@ -18,6 +18,10 @@ public interface TariffDao {
 
     List<Tariff> getAllTariffs(Language lang) throws SQLException;
 
+    List<Tariff> getAllTariffs(Language lang,int page, int size) throws SQLException;
+
+    int getTariffsNumber() throws SQLException;
+
 
     void updateTariffAndTariffInfo(Tariff tariff, Map<Language, Tariff> tariffInfoMap) throws SQLException;
 
@@ -26,4 +30,5 @@ public interface TariffDao {
     void deleteTariff(int id) throws SQLException;
 
     List<Tariff> getTariffsByServiceId(int serviceId, Language language, String order, String orderBy) throws SQLException;
+
 }

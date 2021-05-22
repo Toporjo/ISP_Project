@@ -16,7 +16,7 @@
         <div class="form-group">
             <fmt:message key="register_jsp.placeholder.full_name" var="placeholder_name"/>
             <label for="amount">Кошти</label>
-            <input type="number" pattern="^[0-9]{1,4}$" class="form-control" id="amount"
+            <input type="text" pattern="^[0-9]{1,4}$" class="form-control" id="amount"
                    placeholder="${placeholder_name}" name="amount">
         </div>
         <div class="text-center">

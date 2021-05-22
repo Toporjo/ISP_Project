@@ -11,9 +11,10 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 
-<div class="container shadow-lg p-3 mh-100" style="margin-top:60px">
-    <a href="/home?command=tariffForm&mode=new" class="btn btn-primary mx-auto p-2">Створити тариф</a>
-    <table class="table table-striped">
+<div class="container shadow-lg p-3 h-100" style="margin-top:10px">
+
+    <a href="/home?command=tariffForm&mode=new" class="btn btn-primary mx-auto p-2 float-right my-2">Створити тариф</a>
+    <table class="table table-striped mh-100">
         <thead>
         <tr>
             <th>Послуга</th>
@@ -44,6 +45,15 @@
         </tbody>
     </table>
 
+    <ul class="pagination justify-content-center pb-5 pt-2 " style="margin-top: auto;align-self: flex-end;">
+        <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=1">First</a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=${page < 2 ? 1: page-1}">Previous</a></li>
+        <c:forEach var="page" begin="${1}" end="${pages}">
+            <li class="page-item ${requestScope.page == page? 'active': ''}" ><a class="page-link" href="/home?command=tariffManager&page=${page}">${page}</a></li>
+        </c:forEach>
+        <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=${page >= pages ? pages: page+1}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=${pages}">Last</a></li>
+    </ul>
 
 </div>
 

@@ -41,4 +41,8 @@ public interface UserDao {
     int getUserPaymentAmount(int userId,LocalDate todayDate) throws SQLException;
 
     double getUserPaymentSize(int agreementNumber, LocalDate todayDate) throws SQLException;
+
+    int getUsersNumber() throws SQLException;
+
+    List<User> getAllUsers(int page, int pageSize) throws SQLException;
 }

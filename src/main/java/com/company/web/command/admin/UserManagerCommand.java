@@ -20,10 +20,12 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class UserManagerCommand extends Command {
 
     private static final Logger logger = LogManager.getLogger(UserManagerCommand.class);
+    private static final int PAGE_SIZE = 9;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -31,12 +33,24 @@ public class UserManagerCommand extends Command {
         UserDao userDao = MySqlDaoFactory.getInstance().getUserDao();
 
         HttpSession session = request.getSession();
+        String pageParam = request.getParameter("page");
 
         String forward = Paths.PAGE_ERROR_PAGE;
         List<User> users;
 
         try {
-            users = userDao.getAllUsers();
+            int page = Integer.parseInt(Optional.ofNullable(pageParam).orElse("1"));
+            int usersAmount = userDao.getUsersNumber();
+            if (--page * PAGE_SIZE > usersAmount)  {
+                throw new IllegalArgumentException();
+            }
+            users = userDao.getAllUsers(page, PAGE_SIZE);
+
+
+            request.setAttribute("page",page+1);
+            request.setAttribute("pages",(int)Math.ceil((double)usersAmount/PAGE_SIZE));
+            request.setAttribute("amount",usersAmount);
+            request.setAttribute("size",PAGE_SIZE);
             request.setAttribute("users",users);
         } catch (SQLException e) {
             e.printStackTrace();

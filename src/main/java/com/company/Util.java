@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -69,19 +70,28 @@ public class Util {
     public static String readProperty(String key,Language language) throws IOException {
         Locale locale = new Locale(language.getIsoCode());
         ResourceBundle bundle = ResourceBundle.getBundle("resources", locale);
-
-        return bundle.getString(key);
+        String val = bundle.getString(key);
+        return val;
     }
 
-    public static String formatTariffs(List<Tariff> tariffs){
+//public static String readProperty(String key,Language language) throws IOException {
+//        Locale locale = new Locale(language.getIsoCode());
+//        ResourceBundle bundle = ResourceBundle.getBundle("resources", locale);
+//        String val = bundle.getString(key);
+//        return new String(val.getBytes(StandardCharsets.ISO_8859_1));
+//    }
+//
+    public static String formatTariffs(List<Tariff> tariffs,Language language) throws IOException{
+        String tName = readProperty("tariffs_file_name",language);
+        String tDesc = readProperty("tariffs_file_description",language);
+        String tPrice =readProperty("tariffs_file_price",language);
         StringBuilder sb = new StringBuilder();
         sb.append(LocalDate.now().toString()).append(System.lineSeparator());
         for (Tariff t:tariffs){
             sb.append("~~~~~~").append(tariffs.indexOf(t)+1).append("~~~~~~").append(System.lineSeparator());
-            sb.append(t.getTariffName()).append(System.lineSeparator());
-            sb.append(t.getDescription()).append(System.lineSeparator());
-            sb.append(t.getPrice()).append(System.lineSeparator());
-            sb.append(t.getDiscount()).append(System.lineSeparator());
+            sb.append(tName).append(' ').append(t.getTariffName()).append(System.lineSeparator());
+            sb.append(tDesc).append(' ').append(t.getDescription()).append(System.lineSeparator());
+            sb.append(tPrice).append(' ').append(t.getPrice()).append(System.lineSeparator());
         }
         return sb.toString();
     }

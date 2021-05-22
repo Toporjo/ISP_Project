@@ -1,0 +1,9 @@
+<ul class="pagination justify-content-center pb-5 pt-2 " style="margin-top: auto;align-self: flex-end;">
+    <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=1">First</a></li>
+    <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=${page < 2 ? 1: page-1}">Previous</a></li>
+    <c:forEach var="page" begin="${1}" end="${pages}">
+        <li class="page-item ${requestScope.page == page? 'active': ''}" ><a class="page-link" href="/home?command=tariffManager&page=${page}">${page}</a></li>
+    </c:forEach>
+    <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=${page >= pages ? pages: page+1}">Next</a></li>
+    <li class="page-item"><a class="page-link" href="/home?command=tariffManager&page=${pages}">Last</a></li>
+</ul>

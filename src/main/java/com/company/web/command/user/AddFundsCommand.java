@@ -47,6 +47,7 @@ public class AddFundsCommand  extends Command {
             } else {
                 userDao.update(user);
             }
+            session.setAttribute("successMessage","Your balance was added " + fundsAmount+"₴");
 
 
         } catch (SQLException e) {

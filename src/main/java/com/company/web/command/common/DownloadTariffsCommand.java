@@ -38,22 +38,22 @@ public class DownloadTariffsCommand extends Command {
         List<Tariff> tariffs;
         try {
             int serviceId = Integer.parseInt(service);
-            String fileNameBuilder =
+            String fileName =
                     Util.readProperty(Paths.RESOURCE_TARIFFS_FILE_NAME_FRAGMENT, Util.determineLocale(session, request)) +
                     ' ' + '(' +
                     Util.readProperty(PrintService.print(serviceId), Util.determineLocale(session, request)) +
                     ')' + ".txt";
 
-            String fileName = URLEncoder.encode(fileNameBuilder,"UTF-8");
+            fileName = URLEncoder.encode(fileName,"UTF-8");
             fileName = fileName.replace('+',' ');
 
-            tariffs = tariffDao.getAllTariffs(Util.determineLocale(session,request));
+            tariffs = tariffDao.getTariffsByServiceId(serviceId,Util.determineLocale(session,request));
             response.setCharacterEncoding("UTF-8");
             response.setContentType("text/plain");
             response.setHeader("Content-disposition", "attachment; filename=\""+fileName+"\"");
             WebWriter webWriter = new WebWriter();
 
-            webWriter.write(Util.formatTariffs(tariffs),response.getOutputStream());
+            webWriter.write(Util.formatTariffs(tariffs,Util.determineLocale(session,request)),response.getOutputStream());
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();

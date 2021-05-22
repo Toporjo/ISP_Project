@@ -85,7 +85,6 @@ public class ServiceCommand extends Command {
         }
 
         session.setAttribute("tariffSortParams",sortingParams);
-        request.setAttribute("successMessage","Test success message");
 
 
 

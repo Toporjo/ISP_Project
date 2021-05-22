@@ -33,14 +33,13 @@ public class HomeCommand extends Command {
         String errorMessage;
         HttpSession session = request.getSession();
         UserDao userDao = DaoFactory.getDaoFactory().getUserDao();
-
-        try {
-            User userTest = userDao.findUserByAgreementNumber(2);
-            request.setAttribute("user",userTest);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return Paths.PAGE_ERROR_PAGE;
-        }
+//
+//        try {
+//            request.setAttribute("user",userTest);
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//            return Paths.PAGE_ERROR_PAGE;
+//        }
 
         logger.debug("Done. Sending forward");
         return forward;

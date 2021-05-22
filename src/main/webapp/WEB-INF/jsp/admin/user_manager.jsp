@@ -12,7 +12,7 @@
 
 
 <div class="container shadow-lg p-3 mh-100" style="margin-top:60px">
-    <a href="/home?command=registrationForm" class="btn btn-primary mx-auto p-2">Зареєструвати користувача</a>
+    <a href="/home?command=registrationForm" class="btn btn-primary float-right m-2">Зареєструвати користувача</a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -56,7 +56,15 @@
         </tbody>
     </table>
 
-
+    <ul class="pagination justify-content-center pb-5 pt-2 " style="margin-top: auto;align-self: flex-end;">
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=1">First</a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${page < 2 ? 1: page-1}">Previous</a></li>
+        <c:forEach var="page" begin="${1}" end="${pages}">
+            <li class="page-item ${requestScope.page == page? 'active': ''}" ><a class="page-link" href="/home?command=userManager&page=${page}">${page}</a></li>
+        </c:forEach>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${page >= pages ? pages: page+1}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${pages}">Last</a></li>
+    </ul>
 </div>
 
 

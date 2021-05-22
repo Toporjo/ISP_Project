@@ -138,6 +138,55 @@ public class MySqlTariffDao implements TariffDao {
     }
 
     @Override
+    public List<Tariff> getAllTariffs(Language lang, int page, int size) throws SQLException {
+        String query = "select * from tariffs\n" +
+                "inner join tariff_info on tariff_info.tariff_id = tariffs.id \n" +
+                "where language_id = ?\n" +
+                "order by tariffs.id desc\n" +
+                "limit ?,? ; ";
+        PreparedStatement statement;
+        ResultSet rs;
+        List<Tariff> events = new ArrayList<>();
+        try (Connection con = DBUtil.getConnection()) {
+            statement = con.prepareStatement(query);
+            statement.setInt(1, lang.getId());
+            statement.setInt(2, page*size);
+            statement.setInt(3, size);
+
+            rs = statement.executeQuery();
+            TariffAndInfoMapper mapper = new TariffAndInfoMapper();
+
+            while (rs.next()) {
+                events.add(mapper.mapRow(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return events;
+    }
+
+    @Override
+    public int getTariffsNumber() throws SQLException {
+        String query = "select COUNT(id) from tariffs;";
+        Statement stmt;
+        ResultSet rs;
+        int amount=0;
+        try(Connection con = DBUtil.getConnection()) {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            if (rs.next()){
+                amount = rs.getInt(1);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+        return amount;
+    }
+
+    @Override
     public void updateTariffAndTariffInfo(Tariff tariff, Map<Language, Tariff> tariffInfoMap)throws SQLException {
         String query = "UPDATE tariffs SET price = ?, discount = ? WHERE (id = ?);";
         PreparedStatement statement;
@@ -236,6 +285,8 @@ public class MySqlTariffDao implements TariffDao {
         }
         return tariffs;
     }
+
+
 
     private void insertTariffInfoByTariffId(int tariffId, Connection con,
                                             Map<Language, Tariff> tariffInfoMap) throws SQLException {

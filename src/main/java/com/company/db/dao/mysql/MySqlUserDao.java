@@ -4,6 +4,7 @@ import com.company.db.DBUtil;
 import com.company.db.EntityMapper;
 import com.company.db.Fields;
 import com.company.db.dao.UserDao;
+import com.company.db.entity.Tariff;
 import com.company.db.entity.User;
 
 import javax.jws.soap.SOAPBinding;
@@ -17,9 +18,9 @@ import java.util.Map;
 
 public class MySqlUserDao implements UserDao {
 
-    private static MySqlUserDao instance;
+    private static UserDao instance;
 
-    public static synchronized MySqlUserDao getInstance() {
+    public static synchronized UserDao getInstance() {
         if (instance == null) {
             instance = new MySqlUserDao();
         }
@@ -308,6 +309,51 @@ public class MySqlUserDao implements UserDao {
             throw e;
         }
         return paymentAmount;
+    }
+
+    @Override
+    public int getUsersNumber() throws SQLException {
+            String query = "select COUNT(agreement_number) from users;\n";
+            Statement stmt;
+            ResultSet rs;
+            int amount=0;
+            try(Connection con = DBUtil.getConnection()) {
+                stmt = con.createStatement();
+                rs = stmt.executeQuery(query);
+                if (rs.next()){
+                    amount = rs.getInt(1);
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+                throw e;
+            }
+            return amount;
+    }
+
+    @Override
+    public List<User> getAllUsers(int page, int pageSize) throws SQLException {
+        String query = "select * from users\n" +
+                "order by agreement_number\n" +
+                "limit ?,?;";
+        PreparedStatement statement;
+        ResultSet rs;
+        List<User> users = new ArrayList<>();
+        try (Connection con = DBUtil.getConnection()) {
+            statement = con.prepareStatement(query);
+            statement.setInt(1, page*pageSize);
+            statement.setInt(2, pageSize);
+
+            rs = statement.executeQuery();
+            UserMapper mapper = new UserMapper();
+            while (rs.next()) {
+                users.add(mapper.mapRow(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return users;
     }
 
     private void updateExpiryDatesByUserId(int userId,LocalDate date,Connection con)throws SQLException{
