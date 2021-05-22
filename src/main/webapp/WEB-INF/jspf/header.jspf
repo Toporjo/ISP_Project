@@ -1,0 +1,80 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<c:if test="${sessionScope.user eq null}">
+    <fmt:setLocale value="${requestScope.requestLocale}"/>
+</c:if>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/home?command=home">Fast Net</a>
+
+    <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse"
+            data-target="#navb" aria-expanded="false">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="navb" style="">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/home?command=service&service=0"><fmt:message
+                        key="header_jspf.anchor.telephone"/></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/home?command=service&service=1"><fmt:message
+                        key="header_jspf.anchor.internet"/></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/home?command=service&service=2"><fmt:message
+                        key="header_jspf.anchor.cable_tv"/></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/home?command=service&service=3"><fmt:message
+                        key="header_jspf.anchor.ip_tv"/></a>
+            </li>
+        </ul>
+        <h><fmt:message key="test"/></h>
+        <c:choose>
+            <c:when test="${sessionScope.user eq null}">
+                <form class="form-inline my-2 my-lg-0">
+                    <input type="hidden" name="command" value="loginForm"/>
+                    <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Увійти в персональний кабінет"/>
+                </form>
+            </c:when>
+            <c:otherwise>
+<%--                <div class="form-group">--%>
+<%--                    <label for="sel1">Послуга:</label>--%>
+<%--                    <select class="form-control" id="sel1" name="serviceId">--%>
+<%--                        <option value="0">🇺🇦</option>--%>
+<%--                        <option value="1"></option>--%>
+<%--                        <option value="2"></option>--%>
+<%--                    </select>--%>
+<%--                </div>--%>
+                <h class="mx-2 text-white">${sessionScope.user.firstName} ${sessionScope.user.lastName} ${sessionScope.user.patronymicName}</h>
+                <c:if test="${sessionScope.role eq 'USER'}">
+                    <h class="mx-2 text-white">Баланс: ${sessionScope.user.balance} грн</h>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input type="hidden" name="command" value="fundForm"/>
+                        <input class="btn btn-secondary my-2 my-sm-0" type="submit"  value="+"/>
+                    </form>
+                </c:if>
+                <c:if test="${sessionScope.role eq 'ADMIN'}">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                            Меню адміністратора
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/home?command=tariffManager">Менеджер тарифних планів</a>
+                            <a class="dropdown-item" href="/home?command=userManager">Менеджер користувачів</a>
+
+                        </div>
+                    </div>
+
+                </c:if>
+                <form class="form-inline my-2 my-lg-0 mx-2">
+                    <input type="hidden" name="command" value="logout"/>
+                    <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Вихід"/>
+                </form>
+            </c:otherwise>
+        </c:choose>
+    </div>
+</nav>
+
