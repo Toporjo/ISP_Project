@@ -1,10 +1,14 @@
 package com.company.web.listener;
 
+import com.company.Util;
 import com.company.task.DailyPaymentCheckingTask;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -30,12 +34,12 @@ public class DailyPaymentTaskListener implements ServletContextListener {
 
 //ScheduledExecutorService scheduled;
 //        scheduled = Executors.newSingleThreadScheduledExecutor();
-//        scheduled.scheduleAtFixedRate(new DailyPaymentCheckingTask(),
-//                Util.getEndOfDay(Date.from(Instant.now()),Calendar.getInstance()).getTime(),
+//        scheduled.scheduleAtFixedRate(new DailyPaymentCheckingTask(sce.getServletContext()),
+//                Util.getEndOfDay(Date.from(Instant.now()), Calendar.getInstance()).getTime(),
 //                1,
 //                TimeUnit.DAYS);
-//        System.out.println("Payment Task Started");
-//
+        System.out.println("Payment Task Started");
+
     }
 
     @Override

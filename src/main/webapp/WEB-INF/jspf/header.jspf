@@ -1,4 +1,6 @@
+<%@ page import="com.company.db.constant.Language" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="/WEB-INF/contains.tld" prefix="ct" %>
 
 <c:if test="${sessionScope.user eq null}">
     <fmt:setLocale value="${requestScope.requestLocale}"/>
@@ -39,16 +41,23 @@
                 </form>
             </c:when>
             <c:otherwise>
-<%--                <div class="form-group">--%>
-<%--                    <label for="sel1">Послуга:</label>--%>
-<%--                    <select class="form-control" id="sel1" name="serviceId">--%>
-<%--                        <option value="0">🇺🇦</option>--%>
-<%--                        <option value="1"></option>--%>
-<%--                        <option value="2"></option>--%>
-<%--                    </select>--%>
-<%--                </div>--%>
+                <div class="dropdown">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+                        <fmt:message key="header_jspf.language"/>
+                    </button>
+                    <div class="dropdown-menu">
+                        <c:forEach items="${languages}" var="lang">
+                            <a class="dropdown-item" href="/home?command=changeLanguage&languageId=${lang.ordinal()}"><fmt:message key="${ct:printLanguage(lang.ordinal())}"/></a>
+                        </c:forEach>
+                    </div>
+                </div>
+
                 <h class="mx-2 text-white">${sessionScope.user.lastName} ${sessionScope.user.firstName} ${sessionScope.user.patronymicName}</h>
                 <c:if test="${sessionScope.role eq 'USER'}">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input type="hidden" name="command" value="userTariffs"/>
+                        <input class="btn btn-secondary my-2 my-sm-0" type="submit"  value="My tariffs"/>
+                    </form>
                     <h class="mx-2 text-white"><fmt:message key="header_jspf.wallet"/>: ${sessionScope.user.balance} ₴</h>
                     <form class="form-inline my-2 my-lg-0">
                         <input type="hidden" name="command" value="fundForm"/>

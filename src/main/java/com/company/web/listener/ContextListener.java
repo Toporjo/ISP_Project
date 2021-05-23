@@ -1,5 +1,6 @@
 package com.company.web.listener;
 
+import com.company.db.constant.Language;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -20,6 +21,7 @@ public class ContextListener implements ServletContextListener {
         System.out.println("Initializing log4j and i18n");
         initI18N(sce.getServletContext());
         initLog4J(sce.getServletContext());
+        sce.getServletContext().setAttribute("languages", Language.values());
         logger.debug("Initialization done");
 
 

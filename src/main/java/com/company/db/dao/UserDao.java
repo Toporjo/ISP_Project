@@ -1,6 +1,7 @@
 package com.company.db.dao;
 
 
+import com.company.db.entity.Tariff;
 import com.company.db.entity.User;
 
 import java.sql.SQLException;
@@ -40,4 +41,5 @@ public interface UserDao {
     int getUsersNumber() throws SQLException;
 
     List<User> getAllUsers(int page, int pageSize) throws SQLException;
+
 }

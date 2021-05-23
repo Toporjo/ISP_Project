@@ -24,6 +24,7 @@ public class Paths {
     public static final String PAGE_TARIFF_FORM = "WEB-INF/jsp/form/tariff_from.jsp";
     public static final String PAGE_REGISTRATION_FORM = "WEB-INF/jsp/form/registration_form.jsp";
     public static final String PAGE_FUND = "WEB-INF/jsp/form/fund_form.jsp";
+    public static final String PAGE_USER_TARIFFS = "WEB-INF/jsp/user/user_tariffs.jsp";
 
 
     //commands

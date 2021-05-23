@@ -10,6 +10,7 @@ import com.company.web.command.form.RegistrationFormCommand;
 import com.company.web.command.form.TariffFormCommand;
 import com.company.web.command.user.ActivateTariffCommand;
 import com.company.web.command.user.AddFundsCommand;
+import com.company.web.command.user.UserTariffsCommand;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,6 +46,8 @@ public class CommandContainer {
 		commands.put("addFunds", new AddFundsCommand());
 		commands.put("triggerPayment", new TESTTriggerDailyPaymentCommand());
 		commands.put("downloadTariffs", new DownloadTariffsCommand());
+		commands.put("userTariffs", new UserTariffsCommand());
+		commands.put("changeLanguage", new ChangeLanguageCommand());
 
 	}
 

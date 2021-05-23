@@ -7,13 +7,10 @@ import com.company.db.constant.Language;
 import com.company.db.dao.TariffDao;
 import com.company.db.entity.Tariff;
 
-import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.*;
 
 public class MySqlTariffDao implements TariffDao {
 
@@ -286,6 +283,33 @@ public class MySqlTariffDao implements TariffDao {
         return tariffs;
     }
 
+    @Override
+    public Map<Tariff, LocalDate> getUserTariffsAndExpiryDates(int agreementNumber, Language language) throws SQLException {
+        String query = "select * from users_tariffs ut\n" +
+                "inner join tariffs t on t.id = ut.tariff_id\n" +
+                "inner join tariff_info ti on ti.tariff_id = ut.tariff_id \n" +
+                "where ut.user_id = ? and ti.language_id = ?;";
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Map<Tariff,LocalDate> tariffsDates = new HashMap<>();
+        try (Connection con = DBUtil.getConnection()){
+            pstmt = con.prepareStatement(query);
+            pstmt.setInt(1,agreementNumber);
+            pstmt.setInt(2,language.ordinal());
+            rs = pstmt.executeQuery();
+            EntityMapper<Tariff> tariffMapper = new TariffAndInfoMapper();
+            while (rs.next()){
+                Tariff tariff = tariffMapper.mapRow(rs);
+                LocalDate expiryDate = new Date(rs.getDate("expiry_date").getTime()).toLocalDate();
+                tariffsDates.put(tariff,expiryDate);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
+        }
+        return tariffsDates;
+
+    }
 
 
     private void insertTariffInfoByTariffId(int tariffId, Connection con,

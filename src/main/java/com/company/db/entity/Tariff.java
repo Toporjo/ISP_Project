@@ -3,6 +3,7 @@ package com.company.db.entity;
 import com.company.db.constant.Language;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class Tariff {
 
@@ -27,6 +28,23 @@ public class Tariff {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tariff tariff = (Tariff) o;
+        return id == tariff.id &&
+                Double.compare(tariff.price, price) == 0 &&
+                discount == tariff.discount &&
+                serviceId == tariff.serviceId &&
+                tariffName.equals(tariff.tariffName) &&
+                description.equals(tariff.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, tariffName, price, description, discount, serviceId);
+    }
 
     public int getId() {
         return id;

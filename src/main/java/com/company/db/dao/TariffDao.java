@@ -4,6 +4,7 @@ import com.company.db.constant.Language;
 import com.company.db.entity.Tariff;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +31,7 @@ public interface TariffDao {
     void deleteTariff(int id) throws SQLException;
 
     List<Tariff> getTariffsByServiceId(int serviceId, Language language, String order, String orderBy) throws SQLException;
+
+    Map<Tariff, LocalDate> getUserTariffsAndExpiryDates(int agreementNumber, Language language) throws SQLException;
 
 }

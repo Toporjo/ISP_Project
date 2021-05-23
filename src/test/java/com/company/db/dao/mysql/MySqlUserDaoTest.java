@@ -160,7 +160,6 @@ public class MySqlUserDaoTest{
             sql = "ALTER TABLE services AUTO_INCREMENT = 1";
             statement.executeUpdate(sql);
         }
-
     }
 
     @AfterAll

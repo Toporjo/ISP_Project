@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="/WEB-INF/contains.tld" prefix="custom" %>
+<%@ taglib uri="/WEB-INF/contains.tld" prefix="ct" %>
 
 <html>
 <fmt:message key="home_jsp.title" var="title"/>
