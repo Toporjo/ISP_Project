@@ -10,11 +10,12 @@
 <body>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
-<div class="container shadow-lg p-3 mb-5 bg-white rounded" style="margin-top:160px;width: 600px">
+<div class="container shadow-lg p-3 mb-5 bg-white rounded" style="margin-top:30px;width: 600px">
     <div class="mx-auto" style="width:500px">
-        <h2><fmt:message key="report_form_jsp.h.report_form"/></h2>
-        <label for="name"><fmt:message key="${ct:printService(tariff.serviceId)}"/></label>
-
+        <h2><fmt:message key="tariff_form_jsp.h2.tariff_form"/></h2>
+        <c:if test="${tariff ne null}">
+            <label for="name"><fmt:message key="${ct:printService(tariff.serviceId)}"/></label>
+        </c:if>
 
         <form action="home" method="post">
             <c:choose>
@@ -25,10 +26,10 @@
                 <c:when test="${param.mode eq 'new'}">
                     <input type="hidden" name="command" value="newTariff"/>
                     <div class="form-group">
-                        <label for="sel1">Послуга:</label>
+                        <label for="sel1"><fmt:message key="tariff_form_jsp.label.service"/>:</label>
                         <select class="form-control" id="sel1" name="serviceId">
                             <option value="0"><fmt:message
-                                key="header_jspf.anchor.telephone"/></option>
+                                    key="header_jspf.anchor.telephone"/></option>
                             <option value="1"><fmt:message
                                     key="header_jspf.anchor.internet"/></option>
                             <option value="2"><fmt:message
@@ -40,15 +41,15 @@
                 </c:when>
             </c:choose>
             <div class="form-group">
-                <fmt:message key="report_form_jsp.placeholder.name" var="placeholder_name"/>
-                <label for="name">Ціна</label>
+                <fmt:message key="tariff_form_jsp.input.price" var="placeholder_name"/>
+                <label for="name"><fmt:message key="tariff_form_jsp.label.price"/></label>
                 <input type="text" class="form-control" id="name" placeholder="${placeholder_name}" name="price"
                        <c:if test="${tariff ne null}">value="${tariff.price}"</c:if>/>
             </div>
 
             <div class="form-group">
-                <fmt:message key="report_form_jsp.placeholder.name" var="placeholder_name"/>
-                <label for="name">Знижка</label>
+                <fmt:message key="tariff_form_jsp.input.discount" var="placeholder_name"/>
+                <label for="name"><fmt:message key="tariff_form_jsp.label.discount"/></label>
                 <input type="text" class="form-control" id="name" placeholder="${placeholder_name}" name="discount"
                        <c:if test="${tariff ne null}">value="${tariff.discount}"</c:if>/>
             </div>
@@ -56,15 +57,17 @@
             <c:forEach items="${languages}" var="lang">
                 <input type="hidden" name="language" value="${lang.id}">
                 <div class="form-group">
-                    <fmt:message key="report_form_jsp.placeholder.name" var="placeholder_name"/>
-                    <label for="name">Назва (<fmt:message key="${ct:printLanguage(lang.id)}"/>)</label>
+                    <fmt:message key="tariff_form_jsp.input.name" var="placeholder_name"/>
+                    <label for="name"><fmt:message key="tariff_form_jsp.label.name"/> (<fmt:message
+                            key="${ct:printLanguage(lang.id)}"/>)</label>
                     <input type="text" class="form-control" id="name" placeholder="${placeholder_name}" name="names"
                            <c:if test="${tariff ne null}">value="${tariffInfo[lang].tariffName}"</c:if>/>
                 </div>
 
                 <div class="form-group">
-                    <fmt:message key="report_form_jsp.placeholder.name" var="placeholder_name"/>
-                    <label for="name">Опис (<fmt:message key="${ct:printLanguage(lang.id)}"/>)</label>
+                    <fmt:message key="tariff_form_jsp.input.description" var="placeholder_name"/>
+                    <label for="name"><fmt:message key="tariff_form_jsp.label.description"/> (<fmt:message
+                            key="${ct:printLanguage(lang.id)}"/>)</label>
                     <textarea style="max-height: 200px;min-height: 50px;"
                               class="form-control" id="name" placeholder="${placeholder_name}"
                               name="descriptions"><c:if
@@ -76,14 +79,13 @@
 
                 <c:if test="${param.mode eq 'edit'}">
                     <button type="submit" class="btn btn-primary"><fmt:message
-                            key="event_from_jsp.button.edit"/></button>
+                            key="tariff_form_jsp.button.edit"/></button>
                 </c:if>
                 <c:if test="${param.mode eq 'new'}">
                     <button type="submit" class="btn btn-primary"><fmt:message
-                            key="event_from_jsp.button.create"/></button>
+                            key="tariff_form_jsp.button.create"/></button>
                 </c:if>
             </div>
-
 
 
         </form>

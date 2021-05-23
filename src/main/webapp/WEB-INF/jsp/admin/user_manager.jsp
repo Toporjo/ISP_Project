@@ -12,14 +12,14 @@
 
 
 <div class="container shadow-lg p-3 mh-100" style="margin-top:60px">
-    <a href="/home?command=registrationForm" class="btn btn-primary float-right m-2">Зареєструвати користувача</a>
+    <a href="/home?command=registrationForm" class="btn btn-primary float-right m-2"><fmt:message key="user_manager_jsp.a.register_user"/></a>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Номер договору</th>
-            <th>ПІБ</th>
-            <th>Статус</th>
-            <th>Баланс</th>
+            <th><fmt:message key="user_manager_jsp.th.agreement_number"/></th>
+            <th><fmt:message key="user_manager_jsp.th.full_name"/></th>
+            <th><fmt:message key="user_manager_jsp.th.status"/></th>
+            <th><fmt:message key="user_manager_jsp.th.wallet"/></th>
             <th></th>
         </tr>
         </thead>
@@ -28,11 +28,11 @@
         <c:forEach var="user" items="${users}">
             <tr>
                 <td>${user.agreementNumber}</td>
-                <td>${user.firstName} ${user.lastName} ${user.patronymicName}</td>
+                <td>${user.lastName} ${user.firstName} ${user.patronymicName}</td>
                 <td>
                     <c:choose>
-                        <c:when test="${user.blocked}">Заблокований</c:when>
-                        <c:otherwise>Розблокований</c:otherwise>
+                        <c:when test="${user.blocked}"><fmt:message key="user_manager_jsp.status.blocked"/></c:when>
+                        <c:otherwise><fmt:message key="user_manager_jsp.status.unblocked"/></c:otherwise>
                     </c:choose>
                 </td>
                 <td>${user.balance}</td>
@@ -40,10 +40,10 @@
 
                     <c:choose>
                         <c:when test="${user.blocked}">
-                            <a href="/home?command=handleUser&id=${user.agreementNumber}&block=false" class="btn btn-success text-right">Розблокувати</a>
+                            <a href="/home?command=handleUser&id=${user.agreementNumber}&block=false" class="btn btn-success text-right"><fmt:message key="user_manager_jsp.a.unblock"/></a>
                         </c:when>
                         <c:otherwise>
-                            <a href="/home?command=handleUser&id=${user.agreementNumber}&block=true" class="btn btn-danger text-right">Заблокувати</a>
+                            <a href="/home?command=handleUser&id=${user.agreementNumber}&block=true" class="btn btn-danger text-right"><fmt:message key="user_manager_jsp.a.block"/></a>
                         </c:otherwise>
                     </c:choose>
                 </td>
@@ -57,13 +57,13 @@
     </table>
 
     <ul class="pagination justify-content-center pb-5 pt-2 " style="margin-top: auto;align-self: flex-end;">
-        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=1">First</a></li>
-        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${page < 2 ? 1: page-1}">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=1"><fmt:message key="pagination.li.first"/></a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${page < 2 ? 1: page-1}"><fmt:message key="pagination.li.previous"/></a></li>
         <c:forEach var="page" begin="${1}" end="${pages}">
             <li class="page-item ${requestScope.page == page? 'active': ''}" ><a class="page-link" href="/home?command=userManager&page=${page}">${page}</a></li>
         </c:forEach>
-        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${page >= pages ? pages: page+1}">Next</a></li>
-        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${pages}">Last</a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${page >= pages ? pages: page+1}"><fmt:message key="pagination.li.next"/></a></li>
+        <li class="page-item"><a class="page-link" href="/home?command=userManager&page=${pages}"><fmt:message key="pagination.li.last"/></a></li>
     </ul>
 </div>
 

@@ -11,18 +11,56 @@
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
 
 
-<div class="container-fluid mt-2">
+<div class="jumbotron">
+    <h1><fmt:message key="home_jsp.h1.isp_project"/></h1>
 
-
-    <a href="/home?command=triggerPayment">TRIGGER DAILY PAYMENT</a>
-    <p class="text-center">
-        <fmt:message
-                key="home_jsp.checkbox.ukrainian"/>
-    </p>
-    <p>${sessionScope.user}</p>
+<%--    <a href="/home?command=triggerPayment">TRIGGER DAILY PAYMENT</a>--%>
 
 
     <%@ include file="/WEB-INF/jspf/success.jspf" %>
+</div>
+<div class="container">
+    <h2><fmt:message key="home_jsp.h2.services_list"/></h2>
+
+    <div class="card bg-light text-center">
+        <div class="card-body">
+            <h5>
+                <a class="text-muted" href="/home?command=service&service=0"><fmt:message
+                        key="header_jspf.anchor.telephone"/></a>
+            </h5>
+        </div>
+    </div>
+    <br>
+
+    <div class="card bg-light text-center">
+        <div class="card-body">
+            <h5>
+                <a class="text-muted" href="/home?command=service&service=1"><fmt:message
+                        key="header_jspf.anchor.internet"/></a>
+            </h5>
+        </div>
+    </div>
+    <br>
+
+    <div class="card bg-light text-center">
+        <div class="card-body">
+            <h5>
+                <a class="text-muted" href="/home?command=service&service=2"><fmt:message
+                        key="header_jspf.anchor.cable_tv"/></a>
+            </h5>
+        </div>
+    </div>
+    <br>
+
+    <div class="card bg-light  text-center">
+        <div class="card-body">
+            <h5>
+                <a class="text-secondary" href="/home?command=service&service=3"><fmt:message
+                        key="header_jspf.anchor.ip_tv"/></a>
+            </h5>
+        </div>
+    </div>
+    <br>
 
 </div>
 

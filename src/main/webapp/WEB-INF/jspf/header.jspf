@@ -31,12 +31,11 @@
                         key="header_jspf.anchor.ip_tv"/></a>
             </li>
         </ul>
-        <h><fmt:message key="test"/></h>
         <c:choose>
             <c:when test="${sessionScope.user eq null}">
                 <form class="form-inline my-2 my-lg-0">
                     <input type="hidden" name="command" value="loginForm"/>
-                    <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Увійти в персональний кабінет"/>
+                    <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="<fmt:message key="header_jspf.login"/>"/>
                 </form>
             </c:when>
             <c:otherwise>
@@ -48,9 +47,9 @@
 <%--                        <option value="2"></option>--%>
 <%--                    </select>--%>
 <%--                </div>--%>
-                <h class="mx-2 text-white">${sessionScope.user.firstName} ${sessionScope.user.lastName} ${sessionScope.user.patronymicName}</h>
+                <h class="mx-2 text-white">${sessionScope.user.lastName} ${sessionScope.user.firstName} ${sessionScope.user.patronymicName}</h>
                 <c:if test="${sessionScope.role eq 'USER'}">
-                    <h class="mx-2 text-white">Баланс: ${sessionScope.user.balance} ₴</h>
+                    <h class="mx-2 text-white"><fmt:message key="header_jspf.wallet"/>: ${sessionScope.user.balance} ₴</h>
                     <form class="form-inline my-2 my-lg-0">
                         <input type="hidden" name="command" value="fundForm"/>
                         <input class="btn btn-secondary my-2 my-sm-0" type="submit"  value="+"/>
@@ -59,11 +58,11 @@
                 <c:if test="${sessionScope.role eq 'ADMIN'}">
                     <div class="dropdown">
                         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown">
-                            Меню адміністратора
+                            <fmt:message key="header_jspf.admin_menu"/>
                         </button>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/home?command=tariffManager">Менеджер тарифних планів</a>
-                            <a class="dropdown-item" href="/home?command=userManager">Менеджер користувачів</a>
+                            <a class="dropdown-item" href="/home?command=tariffManager"><fmt:message key="header_jspf.tariff_manager"/></a>
+                            <a class="dropdown-item" href="/home?command=userManager"><fmt:message key="header_jspf.user_manager"/></a>
 
                         </div>
                     </div>
@@ -71,7 +70,7 @@
                 </c:if>
                 <form class="form-inline my-2 my-lg-0 mx-2">
                     <input type="hidden" name="command" value="logout"/>
-                    <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="Вихід"/>
+                    <input class="btn btn-secondary my-2 my-sm-0" type="submit" value="<fmt:message key="header_jspf.logout"/>"/>
                 </form>
             </c:otherwise>
         </c:choose>

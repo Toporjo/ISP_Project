@@ -14,13 +14,13 @@
         <input type="hidden" name="command" value="addFunds"/>
         <input type="hidden" name="id" value="${user.agreementNumber}"/>
         <div class="form-group">
-            <fmt:message key="register_jsp.placeholder.full_name" var="placeholder_name"/>
-            <label for="amount">Кошти</label>
+            <fmt:message key="funds_from_jsp.input.placeholder.amount" var="placeholder_name"/>
+            <label for="amount"><fmt:message key="funds_from_jsp.label.amount"/></label>
             <input type="text" pattern="^[0-9]{1,4}$" class="form-control" id="amount"
                    placeholder="${placeholder_name}" name="amount">
         </div>
         <div class="text-center">
-            <input class="btn btn-success my-2 my-sm-0" type="submit" value="Поповнити"/>
+            <input class="btn btn-success my-2 my-sm-0" type="submit" value="<fmt:message key="funds_from_jsp.button.add"/>"/>
         </div>
     </form>
 </div>
