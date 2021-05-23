@@ -74,12 +74,6 @@ public class LoginCommand extends Command {
 
         logger.trace("Login successful");
 
-        ((Set<Integer>)request.getServletContext().getAttribute("blockedIds"))
-                .remove(user.getAgreementNumber());
-        ((Set<Integer>)request.getServletContext().getAttribute("unblockedIds"))
-                .remove(user.getAgreementNumber());
-
-
         session.setAttribute("user", user);
         session.setAttribute("role",Role.values()[user.getRoleId()]);
 

@@ -35,8 +35,6 @@ public interface UserDao {
 
     void updateUserAndExpiryDates(User x, LocalDate date) throws SQLException;
 
-    int getUserPaymentAmount(int userId,LocalDate todayDate) throws SQLException;
-
     double getUserPaymentSize(int agreementNumber, LocalDate todayDate) throws SQLException;
 
     int getUsersNumber() throws SQLException;

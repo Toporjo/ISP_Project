@@ -17,9 +17,9 @@ import java.util.function.Predicate;
 
 public class MySqlTariffDao implements TariffDao {
 
-    private static MySqlTariffDao instance;
+    private static TariffDao instance;
 
-    public static synchronized MySqlTariffDao getInstance() {
+    public static synchronized TariffDao getInstance() {
         if (instance == null) {
             instance = new MySqlTariffDao();
         }

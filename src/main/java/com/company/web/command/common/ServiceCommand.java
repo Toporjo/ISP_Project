@@ -33,6 +33,7 @@ public class ServiceCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         logger.debug("Starting service command");
         TariffDao tariffDao = DaoFactory.getDaoFactory().getTariffDao();
+        String forward = Paths.PAGE_ERROR_PAGE;
 
         HttpSession session = request.getSession();
 
@@ -52,26 +53,17 @@ public class ServiceCommand extends Command {
             sortingParams.setOrderBy(orderBy);
         }
 
-
-
-        int serviceId;
-        String forward = Paths.PAGE_ERROR_PAGE;
-        List<Tariff> tariffs;
-
         try {
-           serviceId = Integer.parseInt(request.getParameter(SERVICE_PARAMETER));
+            int serviceId = Integer.parseInt(request.getParameter(SERVICE_PARAMETER));
 
-           Language userLocale = (Language) session.getAttribute("locale");
-//get all tariffs
-//           tariffs = tariffDao.getTariffsByServiceId(serviceId,
-//                   userLocale != null ? userLocale : Language.getLanguageByCode(request.getLocale().toString()));
-//get all tariffs with sorting
-            tariffs = tariffDao.getTariffsByServiceId(serviceId,
+            Language userLocale = (Language) session.getAttribute("locale");
+
+            List<Tariff> tariffs = tariffDao.getTariffsByServiceId(serviceId,
                     userLocale != null ? userLocale : Language.getLanguageByCode(request.getLocale().toString()),
                     sortingParams.getOrder(),
                     sortingParams.getOrderBy());
 
-           request.setAttribute(REQUEST_ATTRIBUTE_TARIFFS,tariffs);
+            request.setAttribute(REQUEST_ATTRIBUTE_TARIFFS,tariffs);
            forward = Paths.PAGE_SERVICE;
 
         } catch (NumberFormatException e){

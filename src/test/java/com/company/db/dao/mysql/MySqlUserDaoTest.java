@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +59,39 @@ public class MySqlUserDaoTest{
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
             statement.executeUpdate(sql);
 
+            sql = "CREATE TABLE IF NOT EXISTS `services` (\n" +
+                    "  `id` int NOT NULL AUTO_INCREMENT,\n" +
+                    "  `service_name` varchar(45) NOT NULL,\n" +
+                    "  PRIMARY KEY (`id`),\n" +
+                    "  UNIQUE KEY `service_name_UNIQUE` (`service_name`)\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
+            statement.executeUpdate(sql);
+
+            sql = "CREATE TABLE IF NOT EXISTS `tariffs` (\n" +
+                    "  `id` int NOT NULL AUTO_INCREMENT,\n" +
+                    "  `price` decimal(10,2) NOT NULL,\n" +
+                    "  `discount` tinyint NOT NULL DEFAULT '0',\n" +
+                    "  `service_id` int NOT NULL,\n" +
+                    "  PRIMARY KEY (`id`),\n" +
+                    "  KEY `fk_tariffs_services1_idx` (`service_id`),\n" +
+                    "  CONSTRAINT `fk_tariffs_services1` FOREIGN KEY (`service_id`) REFERENCES `services` (`id`) ON DELETE CASCADE ON UPDATE CASCADE\n" +
+                    ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
+
+            statement.executeUpdate(sql);
+
+            sql = "CREATE TABLE `users_tariffs` (\n" +
+                    "  `user_id` int NOT NULL,\n" +
+                    "  `tariff_id` int NOT NULL,\n" +
+                    "  `expiry_date` date NOT NULL,\n" +
+                    "  PRIMARY KEY (`user_id`,`tariff_id`),\n" +
+                    "  KEY `fk_users_has_tariffs_tariffs1_idx` (`tariff_id`),\n" +
+                    "  KEY `fk_users_has_tariffs_users1_idx` (`user_id`),\n" +
+                    "  CONSTRAINT `fk_users_has_tariffs_tariffs1` FOREIGN KEY (`tariff_id`) REFERENCES `tariffs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,\n" +
+                    "  CONSTRAINT `fk_users_has_tariffs_users1` FOREIGN KEY (`user_id`) REFERENCES `users` (`agreement_number`) ON DELETE CASCADE ON UPDATE CASCADE\n" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8";
+
+            statement.executeUpdate(sql);
+
         }
     }
 
@@ -76,6 +110,26 @@ public class MySqlUserDaoTest{
             sql = "INSERT INTO users (frist_name, last_name, patronymic_name, password,  blocked, balance, role_id, language_id) " +
                     "VALUES ('Test Name', 'Test Last Name', 'Test Patronymic Name', 'password',  '0', '0', '0', '0');\n";
             statement.executeUpdate(sql);
+
+            sql = "INSERT INTO services ( service_name) VALUES ('Telephone');"; //id = 1
+            statement.executeUpdate(sql);
+
+            sql = "INSERT INTO services ( service_name) VALUES ('Internet');";//id = 2
+            statement.executeUpdate(sql);
+
+            sql = "INSERT INTO tariffs (price, discount, service_id) VALUES ('200', '0', '1');\n"; //id = 1
+            statement.executeUpdate(sql);
+
+            sql = "INSERT INTO tariffs (price, discount, service_id) VALUES ('400', '0', '2');\n"; //id = 2
+            statement.executeUpdate(sql);
+
+            sql = "INSERT INTO users_tariffs (user_id, tariff_id, expiry_date) VALUES ('1', '1', '*');\n".replace("*", LocalDate.now().minusDays(1).toString());
+            statement.executeUpdate(sql);
+
+            sql = "INSERT INTO users_tariffs (user_id, tariff_id, expiry_date) VALUES ('1', '2', '*');\n".replace("*", LocalDate.now().plusDays(1).toString());
+            statement.executeUpdate(sql);
+
+
         }
 
     }
@@ -88,7 +142,22 @@ public class MySqlUserDaoTest{
             sql = "DELETE FROM users;";
             statement.executeUpdate(sql);
 
+            sql = "DELETE FROM tariffs;";
+            statement.executeUpdate(sql);
+
+            sql = "DELETE FROM users_tariffs;";
+            statement.executeUpdate(sql);
+
+            sql = "DELETE FROM services;";
+            statement.executeUpdate(sql);
+
             sql = "ALTER TABLE users AUTO_INCREMENT = 1";
+            statement.executeUpdate(sql);
+
+            sql = "ALTER TABLE tariffs AUTO_INCREMENT = 1";
+            statement.executeUpdate(sql);
+
+            sql = "ALTER TABLE services AUTO_INCREMENT = 1";
             statement.executeUpdate(sql);
         }
 
@@ -181,8 +250,15 @@ public class MySqlUserDaoTest{
     }
 
     @Test
-    public void shouldReturnPaymentSize(){
-
+    public void shouldReturnPaymentSize() throws SQLException{
+        double expectedPrice = 200;
+        double actualPrice=0;
+        try (MockedStatic<DBUtil> utilities = Mockito.mockStatic(DBUtil.class)) {
+            utilities.when(DBUtil::getConnection).thenAnswer(x->getConnection());
+            UserDao userDao = MySqlUserDao.getInstance();
+            actualPrice = userDao.getUserPaymentSize(testUser.getAgreementNumber(),LocalDate.now());
+        }
+        assertEquals(expectedPrice, actualPrice, 0.0);
     }
 
 

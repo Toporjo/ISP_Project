@@ -241,28 +241,6 @@ public class MySqlUserDao implements UserDao {
         }
     }
 
-    @Override
-    public int getUserPaymentAmount(int userId,LocalDate todayDate) throws SQLException {
-        String query = "select SUM(t.price) as payment from users_tariffs ut\n" +
-                "inner join tariffs t on t.id = ut.tariff_id\n" +
-                "where  ut.user_id = ? and ut.expiry_date<=?;\n";
-        PreparedStatement pstmt;
-        ResultSet rs;
-        int paymentAmount = 0;
-        try(Connection con = DBUtil.getConnection()) {
-            pstmt = con.prepareStatement(query);
-            pstmt.setInt(1,userId);
-            pstmt.setDate(2,Date.valueOf(todayDate));
-            rs = pstmt.executeQuery();
-            if (rs.next()){
-                paymentAmount =  rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return paymentAmount;
-    }
 
     @Override
     public double getUserPaymentSize(int agreementNumber, LocalDate todayDate) throws SQLException {

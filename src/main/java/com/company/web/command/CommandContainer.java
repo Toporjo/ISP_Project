@@ -25,7 +25,6 @@ public class CommandContainer {
 	private static Map<String, Command> commands = new TreeMap();
 	
 	static {
-		commands.put("register", new RegisterCommand());
 		commands.put("login", new LoginCommand());
 		commands.put("loginForm", new LoginFormCommand());
 		commands.put("home", new HomeCommand());

@@ -129,4 +129,29 @@ public class LoginCommandTest {
         verify(request,Mockito.atMostOnce()).setAttribute("errorMessage",Paths.ERROR_NO_SUCH_USER);
     }
 
+    @Test
+    public void shouldRedirectToHomePageWhenCredentialsAreValid() throws SQLException, IOException, ServletException {
+        final int reqAgreementNumber = 1;
+        final String reqAgreementNumberStr = "1";
+        final String reqPassword = "qwerty";
+
+
+
+        User user = new User();
+        user.setAgreementNumber(reqAgreementNumber);
+        user.setPassword(reqPassword);
+
+        when(request.getSession()).thenReturn(session);
+        when(request.getParameter("agreementNumber")).thenReturn(reqAgreementNumberStr);
+        when(request.getParameter("password")).thenReturn(reqPassword);
+        when(userDao.findUserByAgreementNumber(reqAgreementNumber)).thenReturn(user);
+
+
+        LoginCommand loginCommand = new LoginCommand();
+        String resultPage = loginCommand.execute(request,response);
+
+        verify(response,Mockito.atMostOnce()).sendRedirect(Paths.COMMAND_HOME);
+        assertNull(resultPage);
+    }
+
 }
