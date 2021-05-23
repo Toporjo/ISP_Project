@@ -82,31 +82,7 @@ public class MySqlUserDao implements UserDao {
 
     }
 
-    @Override
-    public boolean isUserEmailExist(String email) throws SQLException {
-        return false;
-    }
 
-    @Override
-    public User findUserByEmail(String email) throws SQLException {
-        String query = "SELECT * FROM users WHERE email=?;";
-        User user = new User();
-
-        PreparedStatement statement;
-        ResultSet rs;
-        try(Connection con = DBUtil.getConnection()) {
-            statement = con.prepareStatement(query);
-            statement.setString(1, email);
-            rs = statement.executeQuery();
-            if (rs.next()) {
-                UserMapper mapper = new UserMapper();
-                user = mapper.mapRow(rs);
-            }
-        } catch (SQLException ex) {
-            throw new SQLException();
-        }
-        return user;
-    }
 
     @Override
     public User findUserByAgreementNumber(int agreementNumber) throws SQLException {
@@ -131,27 +107,27 @@ public class MySqlUserDao implements UserDao {
         return user;
     }
 
-    @Override
-    public List<User> getAllUsers() throws SQLException {
-        String query = "SELECT * FROM users";
-        Statement statement;
-        ResultSet rs;
-        List<User> users;
-        try(Connection con = DBUtil.getConnection()) {
-            statement = con.createStatement();
-            rs = statement.executeQuery(query);
-            users = new ArrayList<>();
-            UserMapper mapper = new UserMapper();
-            while (rs.next()) {
-                users.add(mapper.mapRow(rs));
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return users;
-    }
+//    @Override
+//    public List<User> getAllUsers() throws SQLException {
+//        String query = "SELECT * FROM users";
+//        Statement statement;
+//        ResultSet rs;
+//        List<User> users;
+//        try(Connection con = DBUtil.getConnection()) {
+//            statement = con.createStatement();
+//            rs = statement.executeQuery(query);
+//            users = new ArrayList<>();
+//            UserMapper mapper = new UserMapper();
+//            while (rs.next()) {
+//                users.add(mapper.mapRow(rs));
+//            }
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//        return users;
+//    }
 
     @Override
     public void changeUserBlock(int id,boolean block) throws SQLException {
@@ -385,7 +361,6 @@ public class MySqlUserDao implements UserDao {
                 user.setFirstName(rs.getString(Fields.USER_FIRST_NAME));
                 user.setLastName(rs.getString(Fields.USER_LAST_NAME));
                 user.setPatronymicName(rs.getString(Fields.USER_PATRONYMIC_NAME));
-                user.setEmail(rs.getString(Fields.USER_EMAIL));
                 user.setPassword(rs.getString(Fields.USER_PASSWORD));
                 user.setBalance(rs.getDouble(Fields.USER_BALANCE));
                 user.setBlocked(rs.getBoolean(Fields.USER_BLOCKED));

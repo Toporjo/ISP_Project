@@ -19,13 +19,10 @@ public interface UserDao {
 
     void delete(User user) throws SQLException;
 
-    boolean isUserEmailExist(String email) throws SQLException;
-
-    User findUserByEmail(String email) throws SQLException;
 
     User findUserByAgreementNumber(int agreementNumber) throws SQLException;
 
-    List<User> getAllUsers() throws SQLException;
+//    List<User> getAllUsers() throws SQLException;
 
 
     void changeUserBlock(int id,boolean block) throws SQLException;

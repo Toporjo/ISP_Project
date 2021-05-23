@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import javax.servlet.ServletException;
@@ -112,9 +111,7 @@ public class LoginCommandTest {
         final String reqAgreementNumberStr = "1";
         final String reqPassword = "qwerty";
 
-        try (MockedStatic<MySqlUserDao> theMock = Mockito.mockStatic(MySqlUserDao.class)) {
-            theMock.when(MySqlUserDao::getInstance).thenReturn(userDao);
-        }
+
 
         User user = new User();
         user.setAgreementNumber(reqAgreementNumber);

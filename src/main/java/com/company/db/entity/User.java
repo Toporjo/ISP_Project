@@ -18,11 +18,12 @@ public class User implements Serializable {
     private String lastName;
     private String patronymicName;
     private String password;
-    private String email;
     private double balance;
     private boolean blocked;
     private int roleId;
     private int languageId;
+
+
 
 
     @Override
@@ -38,30 +39,14 @@ public class User implements Serializable {
                 lastName.equals(user.lastName) &&
                 Objects.equals(patronymicName, user.patronymicName) &&
                 password.equals(user.password) &&
-                Objects.equals(email, user.email) &&
                 balance == user.balance;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(agreementNumber, firstName, lastName, patronymicName, password, email, balance, blocked, roleId, languageId);
+        return Objects.hash(agreementNumber, firstName, lastName, patronymicName, password, balance, blocked, roleId, languageId);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "agreementNumber='" + agreementNumber + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", patronymicName='" + patronymicName + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", balance=" + balance +
-                ", blocked=" + blocked +
-                ", roleId=" + roleId +
-                ", languageId=" + languageId +
-                '}';
-    }
 
     public int getAgreementNumber() {
         return agreementNumber;
@@ -103,14 +88,6 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public double getBalance() {
         return balance;
     }
@@ -142,4 +119,33 @@ public class User implements Serializable {
     public void setLanguageId(int languageId) {
         this.languageId = languageId;
     }
+
+    public User(String firstName, String lastName, String patronymicName, String password, double balance, boolean blocked, int roleId, int languageId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymicName = patronymicName;
+        this.password = password;
+        this.balance = balance;
+        this.blocked = blocked;
+        this.roleId = roleId;
+        this.languageId = languageId;
+    }
+
+    public User(int agreementNumber, String firstName, String lastName, String patronymicName, String password, double balance, boolean blocked, int roleId, int languageId) {
+        this.agreementNumber = agreementNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymicName = patronymicName;
+        this.password = password;
+        this.balance = balance;
+        this.blocked = blocked;
+        this.roleId = roleId;
+        this.languageId = languageId;
+    }
+
+    public User() {
+    }
+
+
 }
+
